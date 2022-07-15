@@ -11,6 +11,7 @@ async function run(): Promise<void> {
     const client = new GitHub(core.getInput('token', {required: true}))
     const format = core.getInput('format', {required: true}) as Format
     const filter = core.getMultilineInput('filter', {required: true}) || '*'
+    const basesha = core.getInput('basesha', {required: false}) || ''
 
     // Ensure that the format parameter is set properly.
     if (format !== 'space-delimited' && format !== 'csv' && format !== 'json') {
@@ -19,6 +20,7 @@ async function run(): Promise<void> {
 
     // Debug log the payload.
     core.debug(`Payload keys: ${Object.keys(context.payload)}`)
+    core.debug(`Base SHA: ${basesha}`)
 
     // Get event name.
     const eventName = context.eventName
@@ -44,6 +46,8 @@ async function run(): Promise<void> {
         )
     }
 
+    if (basesha != '') base = basesha
+    
     // Log the base and head commits
     core.info(`Base commit: ${base}`)
     core.info(`Head commit: ${head}`)
