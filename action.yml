@@ -23,6 +23,10 @@ inputs:
   filter:
     required: true
     default: '*'
+  basesha:
+    description: >
+      SHA of commit to use as the base to compare with
+    required: false
 outputs:
   all:
     description: >
